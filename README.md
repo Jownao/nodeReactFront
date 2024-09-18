@@ -15,6 +15,7 @@ Este projeto é uma aplicação de visualização de imagens que utiliza React p
    - [3. Clonar o Repositório do Projeto](#3-clonar-o-repositório-do-projeto)
    - [4. Executar o Projeto com Docker](#4-executar-o-projeto-com-docker)
 5. [Considerações Finais](#considerações-finais)
+6. [Melhorias](#melhorias)
 
 
 ## Estrutura do projeto
@@ -183,7 +184,7 @@ Os arquivos Docker necessários (incluindo `Dockerfile` e `docker-compose.yml`) 
   docker-compose logs
   ```
 
-## Melhorias Potenciais
+## Melhorias
 
 Embora o projeto atenda aos requisitos funcionais, algumas melhorias poderiam ser implementadas para aumentar a segurança, eficiência e escalabilidade. Aqui estão alguns pontos a serem considerados:
 
