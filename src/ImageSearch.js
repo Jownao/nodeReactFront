@@ -60,7 +60,7 @@ const ImageSearch = () => {
       />
       <button onClick={searchImages}>Search</button>
 
-      <h2>Search Results</h2>
+      <h2>Resultados da busca</h2>
       <div className="image-container">
         {images.map((image) => (
           <div key={image.id}>
@@ -76,7 +76,7 @@ const ImageSearch = () => {
         ))}
       </div>
 
-      <h2>Favorites</h2>
+      <h2>Favoritos</h2>
       <div className="image-container">
         {favorites.length > 0 ? (
           favorites.map((image) => (
