@@ -1,0 +1,25 @@
+# Usar uma imagem do Node.js
+FROM node:18-alpine
+
+# Definir o diretório de trabalho
+WORKDIR /app
+
+# Copiar package.json e instalar dependências
+COPY package*.json ./
+RUN npm install
+
+# Copiar o restante do código
+COPY . .
+
+# Build da aplicação
+RUN npm run build
+
+# Usar uma imagem de servidor Nginx para servir a aplicação
+FROM nginx:alpine
+COPY --from=0 /app/build /usr/share/nginx/html
+
+# Expor a porta 80
+EXPOSE 80
+
+# Iniciar o Nginx
+CMD ["nginx", "-g", "daemon off;"]
