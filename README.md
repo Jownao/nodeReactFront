@@ -4,6 +4,18 @@
 
 Este projeto é uma aplicação de visualização de imagens que utiliza React para o frontend e Node.js para o backend. O projeto é configurado para ser executado em containers Docker, com Docker Compose orquestrando o frontend e o backend.
 
+## Sumário
+
+1. [Visão Geral](#visão-geral)
+2. [Estrutura do Projeto](#estrutura-do-projeto)
+3. [Requisitos](#requisitos)
+4. [Passo a Passo para Configuração e Execução do Projeto](#passo-a-passo-para-configuração-e-execução-do-projeto)
+   - [1. Instalar Docker e Docker Compose](#1-instalar-docker-e-docker-compose)
+   - [2. Instalar Git](#2-instalar-git)
+   - [3. Clonar o Repositório do Projeto](#3-clonar-o-repositório-do-projeto)
+   - [4. Executar o Projeto com Docker](#4-executar-o-projeto-com-docker)
+5. [Considerações Finais](#considerações-finais)
+
 
 ## Estrutura do projeto
 ```
@@ -25,52 +37,13 @@ image-visualizer/
 
 Para rodar este projeto, você precisará instalar:
 
-- **Docker**: Uma plataforma para criar e rodar containers.
-- **Docker Compose**: Uma ferramenta para definir e executar multi-containers Docker applications.
-- **Node.js e npm**: Para desenvolvimento e gerenciamento de pacotes (não necessário se estiver utilizando Docker).
+- **Docker**
+- **Docker Compose**
+- **Git**
 
 ## Passo a Passo para Configuração e Execução do Projeto
 
-### 1. Instalar Node.js e npm
-
-**Para Windows e Mac:**
-
-1. **Baixar e Instalar o Node.js:**
-
-   - Acesse o [site oficial do Node.js](https://nodejs.org/).
-   - Baixe o instalador adequado para seu sistema operacional. O instalador inclui o npm.
-   - Siga as instruções de instalação.
-
-2. **Verificar a Instalação:**
-
-   Abra o terminal (Prompt de Comando no Windows ou Terminal no Mac) e execute os seguintes comandos para garantir que o Node.js e o npm estão instalados:
-
-   ```bash
-   node --version
-   npm --version
-   ```
-
-   Ambos os comandos devem retornar a versão instalada.
-
-**Para Linux:**
-
-1. **Instalar Node.js e npm:**
-
-   - Abra o terminal e execute os seguintes comandos para instalar o Node.js e npm:
-
-     ```bash
-     sudo apt-get update
-     sudo apt-get install -y nodejs npm
-     ```
-
-   - Verifique a instalação:
-
-     ```bash
-     node --version
-     npm --version
-     ```
-
-### 2. Instalar Docker e Docker Compose
+### 1. Instalar Docker e Docker Compose
 
 **Para Windows e Mac:**
 
@@ -129,109 +102,73 @@ Para rodar este projeto, você precisará instalar:
      docker-compose --version
      ```
 
+### 2. Instalar Git
+
+Antes de rodar o projeto, você precisará do Git para clonar o repositório.
+
+**Para Windows:**
+
+1. Acesse o [site oficial do Git](https://git-scm.com/) e baixe o instalador para Windows.
+2. Siga as instruções de instalação. Durante a instalação, certifique-se de selecionar a opção para adicionar o Git ao caminho do sistema (`PATH`).
+
+**Para macOS:**
+
+1. Abra o terminal e execute o seguinte comando para instalar o Git usando o Homebrew:
+
+   ```bash
+   brew install git
+   ```
+
+2. Caso não tenha o Homebrew instalado, siga as instruções de instalação [aqui](https://brew.sh/).
+
+**Para Linux:**
+
+1. Abra o terminal e execute o seguinte comando para instalar o Git:
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install git
+   ```
+
+**Verificar a Instalação:**
+
+Após a instalação, execute o seguinte comando no terminal para garantir que o Git está corretamente instalado:
+
+```bash
+git --version
+```
+
+O comando deve retornar a versão instalada do Git.
+
+
 ### 3. Clonar o Repositório do Projeto
 
 1. **Abra o terminal e clone o repositório:**
 
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone <https://github.com/Jownao/nodeReactFront>
    cd image-visualizer
    ```
 
-### 4. Configurar o Backend
+### 4. Executar o Projeto com Docker
 
-1. **No diretório `backend`, crie um arquivo chamado `Dockerfile` com o seguinte conteúdo:**
+Os arquivos Docker necessários (incluindo `Dockerfile` e `docker-compose.yml`) já estão presentes no repositório. Para rodar o projeto com Docker:
 
-   ```dockerfile
-   # Usando uma imagem Node.js
-   FROM node:18-alpine
-
-   # Diretório de trabalho dentro do container
-   WORKDIR /app
-
-   # Copiar o package.json e instalar dependências
-   COPY package*.json ./
-   RUN npm install
-
-   # Copiar o restante dos arquivos
-   COPY . .
-
-   # Expor a porta 5000
-   EXPOSE 5000
-
-   # Comando para iniciar o servidor
-   CMD ["node", "server.js"]
-   ```
-
-### 5. Configurar o Frontend
-
-1. **No diretório principal do projeto, crie um arquivo chamado `Dockerfile.frontend` com o seguinte conteúdo:**
-
-   ```dockerfile
-   # Usar uma imagem Node.js
-   FROM node:18-alpine
-
-   # Definir o diretório de trabalho
-   WORKDIR /app
-
-   # Copiar package.json e instalar dependências
-   COPY package*.json ./
-   RUN npm install
-
-   # Copiar o restante do código
-   COPY . .
-
-   # Build da aplicação
-   RUN npm run build
-
-   # Usar uma imagem de servidor Nginx para servir a aplicação
-   FROM nginx:alpine
-   COPY --from=0 /app/build /usr/share/nginx/html
-
-   # Expor a porta 80
-   EXPOSE 80
-
-   # Iniciar o Nginx
-   CMD ["nginx", "-g", "daemon off;"]
-   ```
-
-### 6. Configurar o Docker Compose
-
-1. **No diretório principal do projeto, crie um arquivo chamado `docker-compose.yml` com o seguinte conteúdo:**
-
-   ```yaml
-   version: '3'
-   services:
-     backend:
-       build:
-         context: .
-         dockerfile: backend/Dockerfile
-       ports:
-         - '5000:5000'
-       volumes:
-         - ./backend:/app
-       container_name: image-visualizer-backend
-
-     frontend:
-       build:
-         context: .
-         dockerfile: Dockerfile.frontend
-       ports:
-         - '3000:80'
-       container_name: image-visualizer-frontend
-   ```
-
-### 7. Build e Rodar os Containers
-
-1. **No terminal, no diretório raiz do projeto, execute o comando para construir e iniciar os containers:**
+1. **No terminal, execute o seguinte comando para construir e iniciar os containers:**
 
    ```bash
    docker-compose up --build
    ```
 
-   Este comando irá construir as imagens e iniciar os containers para o frontend e backend.
+   Esse comando vai:
 
-### 8. Acessar a Aplicação
+   - Construir o container do backend (Node.js) e expor na porta 5000.
+   - Construir o container do frontend (React) e expor na porta 3000.
+
+2. **Acessar a Aplicação:**
+
+   - Acesse o frontend no navegador através de `http://localhost:3000`.
+   - O backend estará rodando em `http://localhost:5000`, mas não há necessidade de acessá-lo diretamente.
 
 - **Frontend**: Abra o navegador e acesse `http://localhost:3000` para visualizar a aplicação de busca e visualização de imagens.
 - **Backend**: O backend estará acessível em `http://localhost:5000`, mas geralmente não será necessário acessar diretamente.
