@@ -191,8 +191,6 @@ Embora o projeto atenda aos requisitos funcionais, algumas melhorias poderiam se
 
 Atualmente, a API key para o serviço de imagens está exposta diretamente no código frontend. Isso pode comprometer a segurança da chave, pois qualquer pessoa que acessar o código ou inspecionar o site poderá visualizar a API key. Algumas maneiras de melhorar isso incluem:
 
-- **Mover a API key para o backend**: Em vez de expor a chave no frontend, crie uma camada de proxy no backend para fazer as requisições às APIs de imagem. O frontend fará chamadas para o backend, que protegerá a chave.
-  
 - **Uso de variáveis de ambiente**: Outra abordagem seria armazenar a API key em variáveis de ambiente e utilizar ferramentas como o `dotenv` para carregá-las no servidor. Isso evitaria que a chave seja exposta no código.
 
 ### 2. Paginação e Carregamento Progressivo
