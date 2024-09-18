@@ -147,7 +147,7 @@ O comando deve retornar a versão instalada do Git.
 
    ```bash
    git clone <https://github.com/Jownao/nodeReactFront>
-   cd image-visualizer
+   cd nodeReactFront
    ```
 
 ### 4. Executar o Projeto com Docker
@@ -175,10 +175,46 @@ Os arquivos Docker necessários (incluindo `Dockerfile` e `docker-compose.yml`) 
 
 ## Considerações Finais
 
-- Certifique-se de que Docker, Docker Compose, Node.js e npm estão instalados e funcionando corretamente no seu sistema.
+- Certifique-se de que Docker e Docker Compose e funcionando corretamente no seu sistema.
 - Se você fizer alterações no código, execute `docker-compose up --build` novamente para atualizar os containers com as mudanças.
 - Caso enfrente algum problema, verifique os logs dos containers para diagnóstico:
 
   ```bash
   docker-compose logs
   ```
+
+## Melhorias Potenciais
+
+Embora o projeto atenda aos requisitos funcionais, algumas melhorias poderiam ser implementadas para aumentar a segurança, eficiência e escalabilidade. Aqui estão alguns pontos a serem considerados:
+
+### 1. Segurança da API Key
+
+Atualmente, a API key para o serviço de imagens está exposta diretamente no código frontend. Isso pode comprometer a segurança da chave, pois qualquer pessoa que acessar o código ou inspecionar o site poderá visualizar a API key. Algumas maneiras de melhorar isso incluem:
+
+- **Mover a API key para o backend**: Em vez de expor a chave no frontend, crie uma camada de proxy no backend para fazer as requisições às APIs de imagem. O frontend fará chamadas para o backend, que protegerá a chave.
+  
+- **Uso de variáveis de ambiente**: Outra abordagem seria armazenar a API key em variáveis de ambiente e utilizar ferramentas como o `dotenv` para carregá-las no servidor. Isso evitaria que a chave seja exposta no código.
+
+### 2. Paginação e Carregamento Progressivo
+
+O projeto atualmente exibe até 20 imagens por consulta, mas não implementa uma funcionalidade de carregamento progressivo (lazy loading) ou paginação. Em vez de carregar todas as imagens de uma vez, poderia ser implementado:
+
+- **Paginação**: Exibir um número limitado de imagens por página, com botões de navegação para ver as próximas ou anteriores.
+  
+- **Lazy Loading**: Carregar imagens conforme o usuário rola a página, o que melhoraria o desempenho e a experiência do usuário.
+
+### 3. Feedback ao Usuário
+
+No estado atual, não há um feedback visual para o usuário quando a busca está sendo processada ou quando não há resultados. Seria interessante adicionar:
+
+- **Loading Spinner**: Exibir um indicador de carregamento enquanto as imagens estão sendo buscadas.
+  
+- **Mensagens de erro ou vazio**: Mostrar uma mensagem apropriada caso a busca não retorne resultados ou ocorra um erro durante a busca.
+
+### 4. Melhoria no Layout Responsivo
+
+Embora o projeto seja responsivo, o layout pode ser refinado para garantir que todas as telas, incluindo dispositivos móveis, tenham uma experiência de usuário otimizada. Isso inclui:
+
+- **Otimização de layout para diferentes tamanhos de tela**: Revisar o CSS para garantir que o layout se ajuste bem em telas de diferentes resoluções, como smartphones e tablets.
+  
+- **Melhor uso de Grid ou Flexbox**: Refatorar o layout para utilizar o Grid Layout ou Flexbox de forma mais eficiente, proporcionando uma distribuição melhor dos elementos na página.
